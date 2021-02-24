@@ -8,6 +8,8 @@ public class LightGroup : MonoBehaviour {
     public Vector3 avgPosition;
     public Color avgColor;
     public Color currentColor;
+    public float avgBrightness;
+    public float currentBrightness;
     public float lerpSpeed = 0.01f;
     public float updateColorInterval = 1f;
 
@@ -17,21 +19,29 @@ public class LightGroup : MonoBehaviour {
     private void Start() {      
         points = new List<LightPoint>();
         avgPosition = Vector3.zero;
-        avgColor = new Color(0, 0, 0);
+        avgColor = new Color(0f, 0f, 0f);
         avgColorVec = Vector3.zero;
         currentColorVec = Vector3.zero;
-
-        StartCoroutine(getNewColor());
+        avgBrightness = 0f;
+        currentBrightness = 0f;
     }
 
     private void Update() {
+        currentBrightness = Mathf.Lerp(currentBrightness, avgBrightness, lerpSpeed);
         currentColorVec = Vector3.Lerp(colToVec(currentColor), avgColorVec, lerpSpeed);
         currentColor = vecToCol(currentColorVec);
     }
 
-    IEnumerator getNewColor() {
+    public void init(List<LightPoint> _points) {
+        points = _points;
+        transform.position = getAvgPosition();
+        StartCoroutine(getNewColor());
+    }
+
+    private IEnumerator getNewColor() {
         while (true) {
             getAvgColor();
+            getAvgBrightness();
             yield return new WaitForSeconds(updateColorInterval);
         }
     }
@@ -52,6 +62,14 @@ public class LightGroup : MonoBehaviour {
         avgColorVec /= (float) points.Count;
         avgColor = vecToCol(avgColorVec);
         return avgColor;
+    }
+
+    public float getAvgBrightness() {
+        for (int i = 0; i < points.Count; i++) {
+            avgBrightness += points[i].brightness;
+        }
+        avgBrightness /= (float) points.Count;
+        return avgBrightness;
     }
 
     public Vector3 colToVec(Color col) {
