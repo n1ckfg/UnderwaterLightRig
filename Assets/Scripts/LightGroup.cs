@@ -9,7 +9,7 @@ public class LightGroup : MonoBehaviour {
     public Color avgColor;
     public Color currentColor;
     public float lerpSpeed = 0.01f;
-    public float updateInterval = 1f;
+    public float updateColorInterval = 1f;
 
     private Vector3 avgColorVec;
     private Vector3 currentColorVec;
@@ -20,11 +20,20 @@ public class LightGroup : MonoBehaviour {
         avgColor = new Color(0, 0, 0);
         avgColorVec = Vector3.zero;
         currentColorVec = Vector3.zero;
+
+        StartCoroutine(getNewColor());
     }
 
-    public void update() {
+    private void Update() {
         currentColorVec = Vector3.Lerp(colToVec(currentColor), avgColorVec, lerpSpeed);
         currentColor = vecToCol(currentColorVec);
+    }
+
+    IEnumerator getNewColor() {
+        while (true) {
+            getAvgColor();
+            yield return new WaitForSeconds(updateColorInterval);
+        }
     }
 
     public Vector3 getAvgPosition() {
