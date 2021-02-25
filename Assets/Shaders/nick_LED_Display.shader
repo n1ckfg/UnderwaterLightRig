@@ -15,7 +15,7 @@ Shader "Nick/LED Display" {
 	SubShader {
 		Pass {
 			Tags { "RenderType"="Opaque" }
-			Blend SrcAlpha One
+			//Blend SrcAlpha One
 			LOD 200
 		
 			CGPROGRAM
