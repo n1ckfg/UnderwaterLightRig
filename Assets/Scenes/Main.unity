@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightRig: {fileID: 259869441}
   updateInterval: 2
-  col: {r: 0.2163036, g: 0.7264151, b: 0, a: 1}
+  col: {r: 0.39624116, g: 0, b: 0.7254902, a: 1}
 --- !u!4 &27715828
 Transform:
   m_ObjectHideFlags: 0

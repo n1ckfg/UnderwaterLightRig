@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// // https://gamedev.stackexchange.com/questions/98632/drawing-a-pixel-to-rendertexture
+// https://gamedev.stackexchange.com/questions/98632/drawing-a-pixel-to-rendertexture
+// https://forum.unity.com/threads/best-easiest-way-to-change-color-of-certain-pixels-in-a-single-sprite.223030/
+// https://docs.unity3d.com/ScriptReference/Texture2D.SetPixels.html
 
 public class LightRig : MonoBehaviour {
 
-    public Texture2D tex;
     public MeshFilter meshFilter;
     public GameObject groupPrefab;
     public LightPoint[] points;
@@ -16,6 +17,7 @@ public class LightRig : MonoBehaviour {
     public bool ready = false;
 
     private Renderer ren;
+    private Texture2D tex;
     private List<Vector3> vertices;
     private List<Vector2> uvs;
     private Color defaultColor;
@@ -32,6 +34,8 @@ public class LightRig : MonoBehaviour {
         defaultColor = new Color(1f, 0f, 0f, 1f);
 
         ren = GetComponent<Renderer>();
+        tex = Instantiate(ren.material.mainTexture) as Texture2D;
+        ren.material.mainTexture = tex;
 
         for (int i = 0; i < vertices.Count; i += pointBatch) {
             int lastPoint = pointBatch;
@@ -67,8 +71,12 @@ public class LightRig : MonoBehaviour {
         tex.SetPixel(x, y, col);
     }
 
+    public void setPixels() {
+        tex.SetPixels(getAllCols(), 0);
+    }
+
     public void updatePixels() {
-        tex.Apply();
+        tex.Apply(false); // don't recalculate mip levels
     }
 
     private IEnumerator updateValues() {
@@ -78,9 +86,7 @@ public class LightRig : MonoBehaviour {
                 setGroupBrightness(groups[i]);
             }
 
-            for (int i = 0; i < points.Length; i++) {
-                setPixel(i, points[i].color);
-            }
+            setPixels();
             updatePixels();
 
             yield return new WaitForSeconds(updateColorInterval);
@@ -88,16 +94,17 @@ public class LightRig : MonoBehaviour {
     }
 
     public void setGroupPosition(LightGroup group) {
-        group.transform.localPosition = points[group.indices[0]].position;       
+        int loc = group.indices.Length / 2;
+        group.transform.localPosition = points[group.indices[loc]].position;       
     }
 
     public void setGroupColor(LightGroup group) {
-        Vector3 avgColorVec = Vector3.zero;
+        Color avgColor = Color.black;
         for (int i = 0; i < group.indices.Length; i++) {
-            avgColorVec += LightUtil.colToVec(points[group.indices[i]].color);
+            avgColor += points[group.indices[i]].color;
         }
         
-        group.avgColorVec = avgColorVec /= group.indices.Length;
+        group.avgColor = avgColor /= group.indices.Length;
     }
 
     public void setGroupBrightness(LightGroup group) {
@@ -107,6 +114,17 @@ public class LightRig : MonoBehaviour {
         }
 
         group.avgBrightness = avgBrightness / group.indices.Length;
+    }
+    
+    public Color[] getAllCols() {
+        Color[] cols = new Color[tex.width*tex.height];
+        for (int i=0; i<points.Length; i++) {
+            int x = (int) (points[i].uv.x * tex.width);
+            int y = (int) (points[i].uv.y * tex.height);
+            int loc = x + y * tex.width;
+            cols[loc] = new Color(1f, 0f, 0f);// points[i].color;
+        }
+        return cols;
     }
 
 }
