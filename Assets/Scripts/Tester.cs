@@ -15,17 +15,9 @@ public class Tester : MonoBehaviour {
     private IEnumerator updateTexture() {
         while (true) {
             if (lightRig.ready) {
-                lightRig.loadPixels();
-
-                for (int i = 0; i < lightRig.groups.Count; i++) {
-                    for (int j = 0; j < lightRig.groups[i].points.Length; j++) {
-                        Vector2 uv = lightRig.groups[i].points[j].uv;
-                        Debug.Log(uv);
-                        lightRig.setPixel(uv.x, uv.y, new Color(1f, 0f, 0f));
-                    }
+                for (int i = 0; i < lightRig.points.Length; i++) {
+                    lightRig.points[i].color = col;
                 }
-                
-                lightRig.updatePixels();
             }
             yield return new WaitForSeconds(updateInterval);
         }

@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightRig: {fileID: 259869441}
-  updateInterval: 1
+  updateInterval: 2
   col: {r: 0.2163036, g: 0.7264151, b: 0, a: 1}
 --- !u!4 &27715828
 Transform:
@@ -231,6 +231,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
         type: 3}
+      propertyPath: mtl
+      value: 
+      objectReference: {fileID: 2100000, guid: 30ecf678b4f082e4cb4a61f5fded6f5b, type: 2}
+    - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
+        type: 3}
       propertyPath: tex
       value: 
       objectReference: {fileID: 2800000, guid: d0faab68162cb3d4bb8963f4741f24c5, type: 3}
@@ -242,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
         type: 3}
       propertyPath: pointBatch
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
         type: 3}
@@ -250,6 +255,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3166619525214049967, guid: 0fb12b0bf071c6548b71ca6c05941558,
         type: 3}
+    - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
+        type: 3}
+      propertyPath: updateColorInterval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4131558731847622981, guid: a2a8cf3989eb045489486b01b5544d3c,
         type: 3}
       propertyPath: m_Name
