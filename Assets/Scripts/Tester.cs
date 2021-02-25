@@ -2,39 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// https://docs.unity3d.com/ScriptReference/Texture2D.SetPixel.html
-// https://forum.unity.com/threads/setpixel-crash.8830/
-
 public class Tester : MonoBehaviour {
 
     public LightRig lightRig;
-    public Material mtl;
     public float updateInterval = 2f;
-
-    private Texture2D tex;
+    public Color col;
 
     private void Start() {
-        tex = (Texture2D) mtl.mainTexture;
-
         StartCoroutine(updateTexture());
     }
 
     private IEnumerator updateTexture() {
         while (true) {
             if (lightRig.ready) {
+                lightRig.loadPixels();
+
                 for (int i = 0; i < lightRig.groups.Count; i++) {
                     for (int j = 0; j < lightRig.groups[i].points.Length; j++) {
                         Vector2 uv = lightRig.groups[i].points[j].uv;
-                        int y = (int) (uv.x * tex.width);
-                        int x = (int) (uv.y * tex.height);
-                        Color color = new Color(1f, 0f, 0f, 1f);
-                        tex.SetPixel(x, y, color);
+                        Debug.Log(uv);
+                        lightRig.setPixel(uv.x, uv.y, new Color(1f, 0f, 0f));
                     }
                 }
-                tex.Apply();
+                
+                lightRig.updatePixels();
             }
             yield return new WaitForSeconds(updateInterval);
         }
     }
 
 }
+
+/*
+1. Raw input signal, positive or negative: -0.25–0.25
+2. Cooked input signal, normalized: 0–1
+3. Heart rate (bpm): 40 athletic, 60–100 normal 
+4. R to r, distance peak to peak--can extrapolate trends: typically 0.6–0.9
+5. Respiration, cycle state: 0.1–0.6
+6. Respiration rate (rr): 12–18 normal
+*/

@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightRig: {fileID: 259869441}
-  mtl: {fileID: 2100000, guid: 30ecf678b4f082e4cb4a61f5fded6f5b, type: 2}
-  updateInterval: 0.1
+  updateInterval: 1
+  col: {r: 0.2163036, g: 0.7264151, b: 0, a: 1}
 --- !u!4 &27715828
 Transform:
   m_ObjectHideFlags: 0
@@ -229,6 +229,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
+        type: 3}
+      propertyPath: tex
+      value: 
+      objectReference: {fileID: 2800000, guid: d0faab68162cb3d4bb8963f4741f24c5, type: 3}
+    - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
+        type: 3}
+      propertyPath: rtex
+      value: 
+      objectReference: {fileID: 8400000, guid: 12664fb952981104a82397248d8f810e, type: 2}
     - target: {fileID: 3861650963061174294, guid: a2a8cf3989eb045489486b01b5544d3c,
         type: 3}
       propertyPath: pointBatch
@@ -351,7 +361,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105637502}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 

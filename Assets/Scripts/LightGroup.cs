@@ -7,6 +7,7 @@ public class LightGroup : MonoBehaviour {
     public LightPoint[] points;
     public float lerpSpeed = 0.01f;
     public float updateColorInterval = 1f;
+    public float brightnessScale = 10f;
 
     private float pointCount;
     private Vector3 avgPosition;
@@ -35,7 +36,7 @@ public class LightGroup : MonoBehaviour {
         currentColorVec = Vector3.Lerp(colToVec(currentColor), avgColorVec, lerpSpeed);
         currentColor = vecToCol(currentColorVec);
 
-        pointLight.intensity = Mathf.Clamp(currentBrightness * 10f, 1f, 8f);
+        pointLight.intensity = Mathf.Clamp(currentBrightness * brightnessScale, 1f, 8f);
         pointLight.color = currentColor;
     }
 
