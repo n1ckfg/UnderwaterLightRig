@@ -15,7 +15,9 @@ public class Tester : MonoBehaviour {
     private IEnumerator updateLightRig() {
         while (true) {
             if (lightRig.ready) {
-                lightRig.defaultColor = col;
+                for (int i=0; i<lightRig.points.Length; i++) {
+                    lightRig.points[i].color = col;
+                }
             }
             yield return new WaitForSeconds(updateInterval);
         }

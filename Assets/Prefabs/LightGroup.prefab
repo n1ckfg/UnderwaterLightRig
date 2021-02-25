@@ -105,5 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386ca6f100d5a824ba5cb1433ab83188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indices: 
   lerpSpeed: 0.01
-  updateColorInterval: 1
+  brightnessScale: 1
+  avgBrightness: 0
+  avgColor: {r: 0, g: 0, b: 0, a: 0}

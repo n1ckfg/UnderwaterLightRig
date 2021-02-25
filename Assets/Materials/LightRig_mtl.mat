@@ -72,7 +72,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpriteTex:
-        m_Texture: {fileID: 2800000, guid: d0faab68162cb3d4bb8963f4741f24c5, type: 3}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
@@ -100,14 +100,14 @@ Material:
     - _Limit: 1.01
     - _Mapping: 1
     - _Maximum: 100
-    - _Metallic: 0
+    - _Metallic: 0.513
     - _MirrorOnBack: 0
     - _ModAmount: 0.05
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Rotation: 0
-    - _Size: 0.13
+    - _Size: 0.19
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SphericalAngle: 10
@@ -119,7 +119,7 @@ Material:
     - _xPos: 5
     - _zPos: 3
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0.9056604, b: 0.048921764, a: 1}
     - _ColorHigh: {r: 1, g: 0, b: 0, a: 0.3}
     - _ColorLow: {r: 0, g: 0, b: 0.5, a: 0.3}
     - _EdgeColor: {r: 0, g: 0, b: 0, a: 1}

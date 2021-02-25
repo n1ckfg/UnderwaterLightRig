@@ -17,36 +17,33 @@ public class LightRig : MonoBehaviour {
     public bool ready = false;
     public int texSize = 256;
     public Color defaultColor;
-    public Texture2D tex;
 
-    private Renderer ren;
-    private List<Vector3> vertices;
-    private List<Vector2> uvs;
+    private Vector3[] vertices;
     private Color[] cols;
 
     private IEnumerator Start() {
         groups = new List<LightGroup>();
 
-        vertices = new List<Vector3>();
-        uvs = new List<Vector2>();
+        vertices = meshFilter.mesh.vertices;
+        points = new LightPoint[vertices.Length];
 
-        meshFilter.mesh.GetVertices(vertices);
-        points = new LightPoint[vertices.Count];
-        meshFilter.mesh.GetUVs(0, uvs);
+        cols = new Color[vertices.Length];
 
-        ren = GetComponent<Renderer>();
-        ren.material.mainTexture = tex;
-        cols = new Color[tex.width * tex.height];
+        for (int i = 0; i < vertices.Length; i++) {
+            cols[i] = defaultColor;
+        }
 
-        for (int i = 0; i < vertices.Count; i += pointBatch) {
+        meshFilter.mesh.colors = cols;
+
+        for (int i = 0; i < vertices.Length; i += pointBatch) {
             int lastPoint = pointBatch;
-            if (vertices.Count - i < pointBatch) lastPoint = vertices.Count - i;
+            if (vertices.Length - i < pointBatch) lastPoint = vertices.Length - i;
             int[] newIndices = new int[lastPoint];
 
             for (int j = 0; j < lastPoint; j++) {
                 int loc = i + j;
                 newIndices[j] = loc;
-                points[loc] = new LightPoint(vertices[loc], defaultColor, uvs[loc], 1f);
+                points[loc] = new LightPoint(vertices[loc], defaultColor, 1f);
             }
 
             LightGroup newGroup = GameObject.Instantiate(groupPrefab).GetComponent<LightGroup>();
@@ -63,11 +60,6 @@ public class LightRig : MonoBehaviour {
         yield return null;
     }
 
-    public void setPixels() {
-        tex.SetPixels(getAllCols());
-        tex.Apply(false); // don't recalculate mip levels
-    }
-
     private IEnumerator updateValues() {
         while (true) {
             for (int i = 0; i < groups.Count; i++) {
@@ -75,7 +67,7 @@ public class LightRig : MonoBehaviour {
                 setGroupBrightness(groups[i]);
             }
 
-            setPixels();
+            setAllCols();
 
             yield return new WaitForSeconds(updateColorInterval);
         }
@@ -104,20 +96,12 @@ public class LightRig : MonoBehaviour {
         group.avgBrightness = avgBrightness / group.indices.Length;
     }
     
-    public Color[] getAllCols() {
+    public void setAllCols() {
         for (int i=0; i<points.Length; i++) {
-            //int x = (int) (points[i].uv.x * tex.width);
-            //int y = (int) (points[i].uv.y * tex.height);
-            //int loc = x + y * tex.width;
-            points[i].color = defaultColor;
-            //cols[loc] = points[i].color;
+            cols[i] = points[i].color;
         }
 
-        for (int i=0; i<cols.Length; i++) {
-            cols[i] = defaultColor;
-        }
-        
-        return cols;
+        meshFilter.mesh.colors = cols;       
     }
 
 }

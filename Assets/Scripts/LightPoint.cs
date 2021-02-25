@@ -6,13 +6,11 @@ public class LightPoint {
 
     public Vector3 position;
     public Color color;
-    public Vector2 uv;
     public float brightness;
 
-    public LightPoint(Vector3 _position, Color _color, Vector2 _uv, float _brightness) {
+    public LightPoint(Vector3 _position, Color _color, float _brightness) {
         position = _position;
         color = _color;
-        uv = _uv;
         brightness = _brightness;
     }
 
