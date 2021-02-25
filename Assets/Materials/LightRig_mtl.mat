@@ -82,6 +82,7 @@ Material:
     m_Floats:
     - _Amount: 3
     - _BaselineLength: 0.5
+    - _Brightness: 200
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -107,7 +108,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Rotation: 0
-    - _Size: 0.19
+    - _Size: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SphericalAngle: 10

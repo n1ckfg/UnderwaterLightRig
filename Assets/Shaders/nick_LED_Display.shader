@@ -5,7 +5,8 @@ Shader "Nick/LED Display" {
 	
 	Properties {
 		_SpriteTex ("Base (RGB)", 2D) = "white" {}
-		_Size ("Size", Range(0, 3)) = 0.5
+		_Size("Size", Range(0, 3)) = 0.5
+		_Brightness("Brightness", Range(1, 200)) = 10.0
 	}
 
 	SubShader {
@@ -25,16 +26,18 @@ Shader "Nick/LED Display" {
 			// Data structures												*
 			// **************************************************************
 			struct GS_INPUT {
-				float4	pos		: POSITION;
-				float3	normal	: NORMAL;
-				float2  tex0	: TEXCOORD0;
-				float4  color	: COLOR;
+				float4	pos			: POSITION;
+				float3	normal		: NORMAL;
+				float2  tex0		: TEXCOORD0;
+				float4  color		: COLOR;
+				float4  emission	: EMISSION;
 			};
 
 			struct FS_INPUT {
-				float4	pos		: POSITION;
-				float2  tex0	: TEXCOORD0;
-				float4  color	: COLOR;
+				float4	pos			: POSITION;
+				float2  tex0		: TEXCOORD0;
+				float4  color		: COLOR;
+				float4  emission	: EMISSION;
 			};
 
 
@@ -43,6 +46,7 @@ Shader "Nick/LED Display" {
 			// **************************************************************
 
 			float _Size;
+			float _Brightness;
 			float4x4 _VP;
 			Texture2D _SpriteTex;
 			SamplerState sampler_SpriteTex;
@@ -91,28 +95,32 @@ Shader "Nick/LED Display" {
 				FS_INPUT pIn;
 				pIn.pos = mul(vp, v[0]);
 				pIn.color = p[0].color;
+				pIn.emission = p[0].color;
 				pIn.tex0 = float2(1.0f, 0.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[1]);
 				pIn.color = p[0].color;
+				pIn.emission = p[0].color;
 				pIn.tex0 = float2(1.0f, 1.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[2]);
 				pIn.color = p[0].color;
+				pIn.emission = p[0].color;
 				pIn.tex0 = float2(0.0f, 0.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[3]);
 				pIn.color = p[0].color;
+				pIn.emission = p[0].color;
 				pIn.tex0 = float2(0.0f, 1.0f);
 				triStream.Append(pIn);
 			}
 
 			// Fragment Shader -----------------------------------------------
 			float4 FS_Main(FS_INPUT input) : COLOR {
-				return input.color * _SpriteTex.Sample(sampler_SpriteTex, input.tex0);
+				return ((input.color * _Brightness) * _SpriteTex.Sample(sampler_SpriteTex, input.tex0));
 			}
 
 			ENDCG
