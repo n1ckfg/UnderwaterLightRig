@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class LightGroup : MonoBehaviour {
 
-    public List<LightPoint> points;
-    public Vector3 avgPosition;
-    public Color avgColor;
-    public Color currentColor;
-    public float avgBrightness;
-    public float currentBrightness;
+    public LightPoint[] points;
     public float lerpSpeed = 0.01f;
     public float updateColorInterval = 1f;
 
+    private float pointCount;
+    private Vector3 avgPosition;
+    private Color avgColor;
+    private Color currentColor;
+    private float avgBrightness;
+    private float currentBrightness;
     private Vector3 avgColorVec;
     private Vector3 currentColorVec;
+    private Light pointLight;
 
-    private void Start() {      
-        points = new List<LightPoint>();
+    private void Start() {
+        pointLight = GetComponent<Light>();
+        pointLight.range = 100f;
+
         avgPosition = Vector3.zero;
         avgColor = new Color(0f, 0f, 0f);
         avgColorVec = Vector3.zero;
         currentColorVec = Vector3.zero;
-        avgBrightness = 0f;
+        avgBrightness = 1f;
         currentBrightness = 0f;
     }
 
@@ -30,45 +34,56 @@ public class LightGroup : MonoBehaviour {
         currentBrightness = Mathf.Lerp(currentBrightness, avgBrightness, lerpSpeed);
         currentColorVec = Vector3.Lerp(colToVec(currentColor), avgColorVec, lerpSpeed);
         currentColor = vecToCol(currentColorVec);
+
+        pointLight.intensity = Mathf.Clamp(currentBrightness * 10f, 1f, 8f);
+        pointLight.color = currentColor;
     }
 
-    public void init(List<LightPoint> _points) {
+    public void init(LightPoint[] _points) {
         points = _points;
-        transform.position = getAvgPosition();
-        StartCoroutine(getNewColor());
+        pointCount = points.Length;
+        Debug.Log("Initialized group with " + pointCount + " points.");
+        transform.localPosition = getAvgPosition();
+
+        StartCoroutine(getAvgValues());
     }
 
-    private IEnumerator getNewColor() {
+    private IEnumerator getAvgValues() {
         while (true) {
             getAvgColor();
             getAvgBrightness();
+
             yield return new WaitForSeconds(updateColorInterval);
         }
     }
 
     public Vector3 getAvgPosition() {
+        /*
         for (int i = 0; i < points.Count; i++) {
             avgPosition += points[i].position;
         }
-        avgPosition /= (float) points.Count;
+        avgPosition /= pointCount;
         return avgPosition;
+        */
+        return points[0].position;
     }
 
     public Color getAvgColor() {
         avgColorVec = Vector3.zero;
-        for (int i = 0; i < points.Count; i++) {
+        for (int i = 0; i < points.Length; i++) {
             avgColorVec += colToVec(points[i].color);
         }
-        avgColorVec /= (float) points.Count;
+        avgColorVec /= pointCount;
         avgColor = vecToCol(avgColorVec);
         return avgColor;
     }
 
     public float getAvgBrightness() {
-        for (int i = 0; i < points.Count; i++) {
+        avgBrightness = 0f;
+        for (int i = 0; i < points.Length; i++) {
             avgBrightness += points[i].brightness;
         }
-        avgBrightness /= (float) points.Count;
+        avgBrightness = avgBrightness / pointCount;
         return avgBrightness;
     }
 
