@@ -105,19 +105,18 @@ public class LightRig : MonoBehaviour {
     }
     
     public Color[] getAllCols() {
-        /*
         for (int i=0; i<points.Length; i++) {
-            int x = (int) (points[i].uv.x * tex.width);
-            int y = (int) (points[i].uv.y * tex.height);
-            int loc = x + y * tex.width;
-            cols[loc] = points[i].color;
+            //int x = (int) (points[i].uv.x * tex.width);
+            //int y = (int) (points[i].uv.y * tex.height);
+            //int loc = x + y * tex.width;
+            points[i].color = defaultColor;
+            //cols[loc] = points[i].color;
         }
-        */
-        
+
         for (int i=0; i<cols.Length; i++) {
             cols[i] = defaultColor;
         }
-
+        
         return cols;
     }
 

@@ -9,15 +9,13 @@ public class Tester : MonoBehaviour {
     public Color col;
 
     private void Start() {
-        StartCoroutine(updateTexture());
+        StartCoroutine(updateLightRig());
     }
 
-    private IEnumerator updateTexture() {
+    private IEnumerator updateLightRig() {
         while (true) {
             if (lightRig.ready) {
-                for (int i = 0; i < lightRig.points.Length; i++) {
-                    lightRig.points[i].color = col;
-                }
+                lightRig.defaultColor = col;
             }
             yield return new WaitForSeconds(updateInterval);
         }
