@@ -1,9 +1,5 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-// https://issuetracker.unity3d.com/issues/upgrade-note-replaced-mul-unity-matrix-mvp-star-with-unityobjecttoclippos-star-faulty-replacement-breaking-shader
-
 // https://forum.unity.com/threads/billboard-geometry-shader.169415/
+// https://forum.unity.com/threads/dx11-tessalation-vertex-color.164221/
 
 Shader "Nick/LED Display" {
 	
@@ -32,11 +28,13 @@ Shader "Nick/LED Display" {
 				float4	pos		: POSITION;
 				float3	normal	: NORMAL;
 				float2  tex0	: TEXCOORD0;
+				float4  color	: COLOR;
 			};
 
 			struct FS_INPUT {
 				float4	pos		: POSITION;
 				float2  tex0	: TEXCOORD0;
+				float4  color	: COLOR;
 			};
 
 
@@ -54,12 +52,13 @@ Shader "Nick/LED Display" {
 			// **************************************************************
 
 			// Vertex Shader ------------------------------------------------
-			GS_INPUT VS_Main(appdata_base v) {
+			GS_INPUT VS_Main(appdata_full v) {
 				GS_INPUT output = (GS_INPUT)0;
 
 				output.pos =  mul(unity_ObjectToWorld, v.vertex);
 				output.normal = v.normal;
 				output.tex0 = float2(0, 0);
+				output.color = v.color;
 
 				return output;
 			}
@@ -91,25 +90,29 @@ Shader "Nick/LED Display" {
 				#endif
 				FS_INPUT pIn;
 				pIn.pos = mul(vp, v[0]);
-				pIn.tex0 = p[0].pos.xy;
+				pIn.color = p[0].color;
+				pIn.tex0 = float2(1.0f, 0.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[1]);
-				pIn.tex0 = p[0].pos.xy;
+				pIn.color = p[0].color;
+				pIn.tex0 = float2(1.0f, 1.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[2]);
-				pIn.tex0 = p[0].pos.xy;
+				pIn.color = p[0].color;
+				pIn.tex0 = float2(0.0f, 0.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[3]);
-				pIn.tex0 = p[0].pos.xy;
+				pIn.color = p[0].color;
+				pIn.tex0 = float2(0.0f, 1.0f);
 				triStream.Append(pIn);
 			}
 
 			// Fragment Shader -----------------------------------------------
 			float4 FS_Main(FS_INPUT input) : COLOR {
-				return _SpriteTex.Sample(sampler_SpriteTex, input.tex0);
+				return input.color * _SpriteTex.Sample(sampler_SpriteTex, input.tex0);
 			}
 
 			ENDCG
