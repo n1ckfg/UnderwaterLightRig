@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LightRig_mtl
-  m_Shader: {fileID: 4800000, guid: 6ee662440b4ed094bbc598b3c31dde23, type: 3}
+  m_Shader: {fileID: 4800000, guid: 50b8fb0924e64fb4797ceb90fb5309d0, type: 3}
   m_ShaderKeywords: _MAPPING_LATITUDE_LONGITUDE_LAYOUT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
