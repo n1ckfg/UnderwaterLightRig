@@ -324,6 +324,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: icosphere2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b4a04247db2289b43869b69e2784f870,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4a04247db2289b43869b69e2784f870, type: 3}
 --- !u!1 &907373344
@@ -391,7 +396,6 @@ GameObject:
   - component: {fileID: 1105637503}
   - component: {fileID: 1105637507}
   - component: {fileID: 1105637506}
-  - component: {fileID: 1105637508}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -513,20 +517,6 @@ MonoBehaviour:
   isLookingCol: {fileID: 0}
   lastHitPos: {x: 1, y: 1, z: 1}
   useCollisions: 0
---- !u!114 &1105637508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105637502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59ae4f317f9b4f8b8d64f71768aaea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sourceTexture: {fileID: 0}
-  _alphaSupport: 0
 --- !u!1 &1393270447
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +674,7 @@ PrefabInstance:
     - target: {fileID: -2256557583851585386, guid: cecc058bafdd32746ad1f41d19a968a2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cecc058bafdd32746ad1f41d19a968a2,
         type: 3}

@@ -30,14 +30,12 @@ Shader "Nick/LED Display Tex" {
 				float3	normal		: NORMAL;
 				float2  tex0		: TEXCOORD0;
 				float4  color		: COLOR;
-				float4  emission	: EMISSION;
 			};
 
 			struct FS_INPUT {
 				float4	pos			: POSITION;
 				float2  tex0		: TEXCOORD0;
 				float4  color		: COLOR;
-				float4  emission	: EMISSION;
 			};
 
 
@@ -95,25 +93,21 @@ Shader "Nick/LED Display Tex" {
 				FS_INPUT pIn;
 				pIn.pos = mul(vp, v[0]);
 				pIn.color = p[0].color;
-				pIn.emission = p[0].color;
 				pIn.tex0 = float2(1.0f, 0.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[1]);
 				pIn.color = p[0].color;
-				pIn.emission = p[0].color;
 				pIn.tex0 = float2(1.0f, 1.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[2]);
 				pIn.color = p[0].color;
-				pIn.emission = p[0].color;
 				pIn.tex0 = float2(0.0f, 0.0f);
 				triStream.Append(pIn);
 
 				pIn.pos =  mul(vp, v[3]);
 				pIn.color = p[0].color;
-				pIn.emission = p[0].color;
 				pIn.tex0 = float2(0.0f, 1.0f);
 				triStream.Append(pIn);
 			}
