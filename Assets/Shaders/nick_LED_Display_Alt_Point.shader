@@ -1,4 +1,4 @@
-﻿Shader "Nick/LED_Display_OpenGL" {
+﻿Shader "Nick/LED_Display_Alt_Point" {
 
 	Properties{
 		_SpriteTex("Base (RGB)", 2D) = "white" {}
@@ -11,6 +11,7 @@
 
 		Pass {
 			CGPROGRAM
+			#pragma require geometry
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma geometry geom
