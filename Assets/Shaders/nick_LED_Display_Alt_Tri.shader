@@ -1,23 +1,14 @@
 ﻿Shader "Nick/LED_Display_Alt_Tri" {
 
 	Properties{
-		_SpriteTex("Base (RGB)", 2D) = "white" {}
 		_Size("Size", Range(0, 3)) = 0.5
 		_Brightness("Brightness", Range(1, 200)) = 10.0
 	}
 
 	SubShader {
-		Tags {
-			"IgnoreProjector" = "True"
-			"Queue" = "Transparent"
-			"RenderType" = "Transparent"
-		}
+		Tags { "RenderType" = "Opaque" }
 
 		Pass {
-			Blend SrcAlpha OneMinusSrcAlpha
-			ZWrite Off
-			Cull Back
-
 			CGPROGRAM
 			#pragma require geometry
 			#pragma vertex vert
@@ -28,8 +19,6 @@
 
 			float _Size;
 			float _Brightness;
-			sampler2D _SpriteTex;
-			float4 _SpriteTex_ST;
 
 			struct appdata {
 				float4 vertex : POSITION;
@@ -74,11 +63,11 @@
 
 				float halfS = 0.5f * _Size;
 
-				float4 v[4];
-				v[0] = float4(IN[0].vertex + halfS * right - halfS * up, 1.0f);
+				float4 v[3];
+				v[0] = float4(IN[0].vertex + (halfS * 2) * right - (halfS * 2) * up, 1.0f);
+				//v[0] = float4(IN[0].vertex + halfS * right - halfS * up, 1.0f);
 				v[1] = float4(IN[0].vertex + halfS * right + halfS * up, 1.0f);
 				v[2] = float4(IN[0].vertex - halfS * right - halfS * up, 1.0f);
-				v[3] = float4(IN[0].vertex - halfS * right + halfS * up, 1.0f);
 
 				float4x4 vp;
 				#if UNITY_VERSION >= 560 
@@ -103,16 +92,11 @@
 				o.uv = float2(0.0f, 0.0f);
 				o.color = IN[0].color;
 				tristream.Append(o);
-
-				o.pos = mul(vp, v[3]);
-				o.uv = float2(0.0f, 1.0f);
-				o.color = IN[0].color;
-				tristream.Append(o);
 			}
 
 			fixed4 frag(g2f i) : SV_Target {
-				return  i.color * tex2D(_SpriteTex, i.uv) * _Brightness;
-			}
+				return  i.color * _Brightness;
+			} 
 			ENDCG
 		}
 	}
